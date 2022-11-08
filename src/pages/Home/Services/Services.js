@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ServicesCard from './ServicesCard';
+import { FaArrowRight } from "react-icons/fa";
 
 const Services = () => {
     const [services, setServices] = useState([]);
@@ -22,6 +24,12 @@ const Services = () => {
                         service={service}
                     ></ServicesCard>)
                 }
+            </div>
+            <div className='text-center mb-10'>
+                <Link>
+                    <button className='btn btn-outline btn-secondary'>See All Services <FaArrowRight className='ml-2' />
+                    </button>
+                </Link>
             </div>
         </div>
     );
