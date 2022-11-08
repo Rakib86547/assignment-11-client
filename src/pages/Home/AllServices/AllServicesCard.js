@@ -2,12 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const AllServicesCard = ({ services }) => {
-    const { image, title, details, _id } = services;
+    const { image, title, details, _id, price } = services;
     return (
         <div className="card card-compact w-96 bg-base-100 shadow-xl">
             <figure><img src={image} alt="Shoes" /></figure>
             <div className="card-body">
                 <h2 className="card-title font-bold">{title}</h2>
+                <h3 className='text-red-500 font-bold'>{price}</h3>
                 <p className='font-semibold'>
                     {
                         details.length > 100 ? <p>{details.slice(0, 100)}<span>....</span></p> : { details }
