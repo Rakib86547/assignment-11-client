@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import AllServicesCard from './AllServicesCard';
 
 const AllServices = () => {
     const [allServices, setAllServices] = useState([]);
@@ -9,8 +10,16 @@ const AllServices = () => {
         .then(data => setAllServices(data))
     }, [])
     return (
-        <div>
-            <h1>all: {allServices.length}</h1>
+        <div className='w-[90%] mx-auto'>
+            <h1 className='text-center text-blue-600 font-bold mt-10 text-4xl'>All Services</h1>
+            <div className='my-14 grid grid-cols-1 lg:grid-cols-3 gap-5'>
+                {
+                    allServices.map(services => <AllServicesCard
+                    key={services._id}
+                    services={services}
+                    ></AllServicesCard>)
+                }
+            </div>
         </div>
     );
 };
