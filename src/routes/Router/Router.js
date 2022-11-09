@@ -5,7 +5,9 @@ import AllServices from "../../pages/Home/AllServices/AllServices";
 import Home from "../../pages/Home/Home/Home";
 import ServicesDetails from "../../pages/Home/ServicesDetails/ServicesDetails";
 import Login from "../../pages/Login/Login";
+import Review from "../../pages/Review/Review";
 import SignUp from "../../pages/Signup/SignUp";
+import PrivetRoute from "./PrivetRoute";
 
 const router = createBrowserRouter([{
     path: '/',
@@ -35,6 +37,10 @@ const router = createBrowserRouter([{
             path: '/services/:id',
             element: <ServicesDetails></ServicesDetails>,
             loader: ({params}) => fetch(`http://localhost:5000/services/${params.id}`)
+        },
+        {
+            path: '/reviews',
+            element: <PrivetRoute><Review></Review></PrivetRoute>
         }
     ]
 }]);
