@@ -1,13 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { FaUniversity } from "react-icons/fa";
+import { AuthContext } from '../../../context/AuthProvider/AuthProvider';
 
 const Headers = () => {
-
+    const {user, logOut} = useContext(AuthContext);
+    
+    const handleSignOut = () => {
+        logOut()
+        .then(() => {})
+        .catch(error => console.error(error))
+    }
     const headerMenu = <>
     <li className='font-bold'><Link to='/'>Home</Link></li>
     <li className='font-bold'><Link to='/blog'>Blog</Link></li>
-    <li className='font-bold'><Link to='/login'>Login</Link></li>
+    {
+        user?.email ? 
+        <>
+            <li className='font-bold'><Link to='/review'>My Reviews</Link></li>
+            <li className='font-bold'><Link to='/add_service'>Add Service</Link></li>
+            <li className='font-bold' onClick={handleSignOut}><Link>Log Out</Link></li>
+        </>
+        :
+        <li className='font-bold'><Link to='/login'>Login</Link></li>
+    }
     </>
     return (
 
