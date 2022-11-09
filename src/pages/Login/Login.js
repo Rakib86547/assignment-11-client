@@ -1,85 +1,75 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaGoogle } from 'react-icons/fa';
-import image from '../../assest/login/11.png';
+import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 import { GoogleAuthProvider } from 'firebase/auth';
 
-const Login = () => {
-    const googleProvider = new GoogleAuthProvider();
-    const { signIn, signInWithGoogle } = useContext(AuthContext);
-    const handleSubmit = event => {
 
+
+const Login = () => {
+    const {signInWithGoogle, signIn} = useContext(AuthContext);
+    const googleProvider = new GoogleAuthProvider();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state?.from?.pathname || '/';
+
+    const handleSubmit = (event) => {
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
         signIn(email, password)
-            .then((result) => {
-                const user = result.user;
-                form.reset();
-                console.log(user)
-            })
-            .catch(error => console.error(error))
-        console.log(email, password);
+        .then(result => {
+            const user = result.user;
+            form.reset();
+            navigate(from, {replace: true});
+            console.log(user)
+        })
+        .catch(err => console.error(err));
     }
 
-    // sign in with google
-    const handleSignInGoogle = (provider) => {
+    const handleGoogleSign = (provider) => {
         signInWithGoogle(googleProvider)
-            .then(result => {
-                const user = result.user;
-                console.log(user);
-            })
-            .catch(error => console.error(error))
-    };
-
+        .then(result => {
+            const user = result.user;
+            
+            navigate(from, {replace: true});
+            console.log(user);
+        })
+        .catch(err => console.error(err));
+    }
     return (
-
-        <div>
-            <div className="hero min-h-screen">
-                <div className="hero-content flex-col lg:flex-row">
-                    <div className="text-center lg:text-left w-1/2">
-
-                        <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
-                    </div>
-                    <div className="card w-1/2 flex-shrink-0 max-w-sm shadow-2xl bg-base-100">
-                        <form onSubmit={handleSubmit} className="card-body">
+        <div className="hero ">
+            <div className="hero-content w-[40%]">
+                <div className="card flex-shrink-0 w-full shadow-2xl bg-base-100">
+                    <form onSubmit={handleSubmit} className="card-body">
+                        <div className="form-control">
                             <h1 className="text-5xl font-bold text-center">Login</h1>
+                            <label className="label">
+                                <span className="label-text">Email</span>
+                            </label>
+                            <input type="email" placeholder="email" name='email' className="input input-bordered" />
+                        </div>
 
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Email</span>
-                                </label>
-                                <input type="email" name='email' placeholder="email" className="input input-bordered" />
-                            </div>
 
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Password</span>
-                                </label>
-                                <input type="password" name='password' placeholder="password" className="input input-bordered" />
-                                <label className="label">
-                                    <Link href="#" className="label-text-alt link link-hover">Forgot password?</Link>
-                                </label>
-                            </div>
-
-                            <div className="form-control mt-6">
-                                <button className="btn btn-primary">Login</button>
-                            </div>
-                            <div className='flex justify-center text-4xl'>
-                                <button onClick={handleSignInGoogle}><FaGoogle className='mr-4' /></button>
-                                
-                            </div>
-                            <p className='text-center'>Don`t have an account? <Link to='/signup' className='text-blue-500'>Sign Up</Link></p>
-                        </form>
-
-                    </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Password</span>
+                            </label>
+                            <input type="password" name='password' placeholder="password" className="input input-bordered" required />
+                        </div>
+                        <div className="form-control mt-6">
+                            <input type="submit" value="Login" className="btn btn-primary" />
+                        </div>
+                        <div className='text-3xl flex justify-center'>
+                            <button onClick={handleGoogleSign}><FaGoogle className='text-red-600' /></button>
+                        </div>
+                        <p className='text-center'>Don`t` have an account? <Link to='/signup' className='text-green-600'>Sign Up</Link></p>
+                    </form>
                 </div>
             </div>
         </div>
-
-    );
+    )
 };
 
 export default Login;

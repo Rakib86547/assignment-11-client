@@ -4,26 +4,26 @@ import { FaUniversity } from "react-icons/fa";
 import { AuthContext } from '../../../context/AuthProvider/AuthProvider';
 
 const Headers = () => {
-    const {user, logOut} = useContext(AuthContext);
-    
+    const { user, logOut } = useContext(AuthContext);
+
     const handleSignOut = () => {
         logOut()
-        .then(() => {})
-        .catch(error => console.error(error))
+            .then(() => { })
+            .catch(error => console.error(error))
     }
     const headerMenu = <>
-    <li className='font-bold'><Link to='/'>Home</Link></li>
-    <li className='font-bold'><Link to='/blog'>Blog</Link></li>
-    {
-        user?.email ? 
-        <>
-            <li className='font-bold'><Link to='/review'>My Reviews</Link></li>
-            <li className='font-bold'><Link to='/add_service'>Add Service</Link></li>
-            <li className='font-bold' onClick={handleSignOut}><Link>Log Out</Link></li>
-        </>
-        :
-        <li className='font-bold'><Link to='/login'>Login</Link></li>
-    }
+        <li className='font-bold'><Link to='/'>Home</Link></li>
+        <li className='font-bold'><Link to='/blog'>Blog</Link></li>
+        {
+            user?.email ?
+                <>
+                    <li className='font-bold'><Link to='/review'>My Reviews</Link></li>
+                    <li className='font-bold'><Link to='/add_service'>Add Service</Link></li>
+                    <li className='font-bold'><Link><button onClick={handleSignOut}>Log Out</button></Link></li>
+                </>
+                :
+                <li className='font-bold'><Link to='/login'>Login</Link></li>
+        }
     </>
     return (
 
@@ -38,12 +38,12 @@ const Headers = () => {
                     </ul>
                 </div>
                 <Link to='/' className="btn btn-ghost normal-case text-4xl">
-                    <FaUniversity/>
+                    <FaUniversity />
                 </Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal p-0">
-                   {headerMenu}
+                    {headerMenu}
                 </ul>
             </div>
             <div className="navbar-end">
