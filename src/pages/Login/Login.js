@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom';
 import { FaGoogle, FaGithub } from 'react-icons/fa';
 import image from '../../assest/login/11.png';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
+import { GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 
 const Login = () => {
-    const { signIn } = useContext(AuthContext);
+    const googleProvider = new GoogleAuthProvider();
+    const githubProvider = new GithubAuthProvider();
+    const { signIn, signInWithGoogle, signInWithGithub } = useContext(AuthContext);
     const handleSubmit = event => {
 
         event.preventDefault();
@@ -20,6 +23,26 @@ const Login = () => {
             })
             .catch(error => console.error(error))
         console.log(email, password);
+    }
+
+    // sign in with google
+    const handleSignInGoogle = (provider) => {
+        signInWithGoogle(googleProvider)
+        .then(result => {
+            const user = result.user;
+            console.log(user);
+        })
+        .catch(error => console.error(error))
+    };
+
+    // sign in with github
+    const handleSignInGithub = (provider) => {
+        signInWithGithub(githubProvider)
+        .then(result => {
+            const user = result.user;
+            console.log(user)
+        })
+        .catch(error => console.log(error))
     }
     return (
         
@@ -55,8 +78,8 @@ const Login = () => {
                                     <button className="btn btn-primary">Login</button>
                                 </div>
                                 <div className='flex justify-center text-4xl'>
-                                    <button><FaGoogle className='mr-4' /></button>
-                                    <button> <FaGithub /></button>
+                                    <button onClick={handleSignInGoogle}><FaGoogle className='mr-4' /></button>
+                                    <button onClick={handleSignInGithub}> <FaGithub /></button>
                                 </div>
                                 <p className='text-center'>Don`t have an account? <Link to='/signup' className='text-blue-500'>Sign Up</Link></p>
                             </form>
