@@ -10,7 +10,7 @@ const BannerItems = ({slide}) => {
             </div>
             <div className="absolute flex justify-end transform -translate-y-1/2 left-5 top-[35%]">
                 <h1 className='text-5xl font-bold text-white'>
-                    Attorna low firm
+                    Albert law firm
                 </h1>
             </div>
 

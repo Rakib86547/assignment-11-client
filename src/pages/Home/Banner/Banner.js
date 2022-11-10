@@ -1,10 +1,12 @@
 import React from 'react';
 import image1 from '../../../assest/banner/1.jpg';
 import image2 from '../../../assest/banner/2.jpg';
+import useTitle from '../../../hooks/useTitle';
 import BannerItems from './BannerItems';
 
 
 const Banner = () => {
+    useTitle('Banner')
     const bannerlSlide = [
         {
             img: image1,

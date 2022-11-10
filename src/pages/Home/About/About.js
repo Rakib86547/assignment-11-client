@@ -1,7 +1,9 @@
 import React from 'react';
 import image from '../../../assest/about/1.jpg';
+import useTitle from '../../../hooks/useTitle';
 
 const About = () => {
+    useTitle('About')
     return (
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-5 w-[90%] mx-auto my-10'>
             <div className='p-10'>

@@ -3,11 +3,13 @@ import { FaGoogle } from 'react-icons/fa';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 import { GoogleAuthProvider } from 'firebase/auth';
+import useTitle from '../../hooks/useTitle';
 
 
 
 const Login = () => {
-    const {signInWithGoogle, signIn} = useContext(AuthContext);
+    useTitle('Login');
+    const { signInWithGoogle, signIn } = useContext(AuthContext);
     const googleProvider = new GoogleAuthProvider();
     const location = useLocation();
     const navigate = useNavigate();
@@ -19,24 +21,37 @@ const Login = () => {
         const email = form.email.value;
         const password = form.password.value;
         signIn(email, password)
-        .then(result => {
-            const user = result.user;
-            form.reset();
-            navigate(from, {replace: true});
-            console.log(user)
-        })
-        .catch(err => console.error(err));
+            .then(result => {
+                const user = result.user;
+                
+                const currentUser = {
+                    email: user.email
+                }
+                fetch('http://localhost:5000/jwt', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(currentUser)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        localStorage.setItem('albert-token', data.token);
+                        navigate(from, { replace: true })
+                    })
+            })
+            .catch(err => console.error(err));
     }
 
     const handleGoogleSign = (provider) => {
         signInWithGoogle(googleProvider)
-        .then(result => {
-            const user = result.user;
-            
-            navigate(from, {replace: true});
-            console.log(user);
-        })
-        .catch(err => console.error(err));
+            .then(result => {
+                const user = result.user;
+
+                navigate(from, { replace: true });
+                console.log(user);
+            })
+            .catch(err => console.error(err));
     }
     return (
         <div className="hero ">
@@ -61,11 +76,12 @@ const Login = () => {
                         <div className="form-control mt-6">
                             <input type="submit" value="Login" className="btn btn-primary" />
                         </div>
-                        <div className='text-3xl flex justify-center'>
-                            <button onClick={handleGoogleSign}><FaGoogle className='text-red-600' /></button>
-                        </div>
+                       
                         <p className='text-center'>Don`t` have an account? <Link to='/signup' className='text-green-600'>Sign Up</Link></p>
                     </form>
+                    <div className='text-3xl flex justify-center pb-7'>
+                            <button onClick={handleGoogleSign}><FaGoogle className='text-red-600' /></button>
+                        </div>
                 </div>
             </div>
         </div>

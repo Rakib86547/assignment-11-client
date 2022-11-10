@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import 'react-photo-view/dist/react-photo-view.css';
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import { AuthContext } from '../../../context/AuthProvider/AuthProvider';
 
 const AllServicesCard = ({ services }) => {
+    const {loading} = useContext(AuthContext);
+    if(loading) {
+        return <h1>Loading...</h1>
+    }
     const { image, title, details, _id, price } = services;
     return (
-        <div className="card card-compact w-96 bg-base-100 shadow-xl">
-            <figure><img src={image} alt="Shoes" /></figure>
+        <div className="card card-compact bg-base-100 shadow-xl">
+            <PhotoProvider>
+                <PhotoView src={image}>
+                    <img className='cursor-pointer' src={image} alt="" />
+                </PhotoView>
+            </PhotoProvider>
             <div className="card-body">
                 <h2 className="card-title font-bold">{title}</h2>
                 <h3 className='text-red-500 font-bold'>{price}</h3>

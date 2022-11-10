@@ -4,33 +4,34 @@ import app from '../../firebase/firebase.config';
 
 export const AuthContext = createContext();
 const auth = getAuth(app)
-const AuthProvider = ({children}) => {
+const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-   // create user 
-   const createUser = (photoURL, email, password) => {
-    setLoading(true)
-    return createUserWithEmailAndPassword(auth, photoURL, email, password);
-   }
+    // create user 
+    const createUser = (photoURL, email, password) => {
+        setLoading(true)
+        return createUserWithEmailAndPassword(auth, photoURL, email, password);
+    }
 
-   // sign in with email and password
-   const signIn = (email, password) => {
-    setLoading(true)
-    return signInWithEmailAndPassword(auth, email, password)
-   }
+    // sign in with email and password
+    const signIn = (email, password) => {
+        setLoading(true)
+        return signInWithEmailAndPassword(auth, email, password)
+    }
 
-   // signIn with google
-   const signInWithGoogle = (provider) => {
-    setLoading(true)
-    return signInWithPopup(auth, provider)
-   } 
+    // signIn with google
+    const signInWithGoogle = (provider) => {
+        setLoading(true)
+        return signInWithPopup(auth, provider)
+    }
 
-   // log Out 
-   const logOut = () => {
-    setLoading(true)
-    return signOut(auth)
-   }
+    // log Out 
+    const logOut = () => {
+        localStorage.removeItem('albert-token')
+        setLoading(true)
+        return signOut(auth)
+    }
     // user state onAuthState
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
@@ -48,7 +49,8 @@ const AuthProvider = ({children}) => {
         createUser,
         signInWithGoogle,
         signIn,
-        logOut
+        logOut,
+        setLoading
     };
     return (
         <AuthContext.Provider value={authInfo}>

@@ -1,14 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
+import useTitle from '../../hooks/useTitle';
 import ReviewRow from './ReviewRow';
 
 const Review = () => {
+    useTitle('Review');
     const { user } = useContext(AuthContext);
     const [reviews, setReviews] = useState([]);
     useEffect(() => {
-        fetch(`http://localhost:5000/reviews?email=${user?.email}`)
-            .then(res => res.json())
+        fetch(`http://localhost:5000/reviews?email=${user?.email}`, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('albert-token')}`
+            }
+        })
+            .then(res =>  res.json())
             .then(data => {
                 setReviews(data)
                 console.log(data)
