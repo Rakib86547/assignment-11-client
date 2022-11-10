@@ -24,7 +24,7 @@ const ServicesDetails = () => {
             serviceName: title,
             serviceImage : image
         };
-        fetch('http://localhost:5000/reviews', {
+        fetch('https://assignment-11-server-ecru-gamma.vercel.app/reviews', {
             method: "POST",
             headers: {
                 'content-type': 'application/json'

@@ -9,7 +9,7 @@ const Review = () => {
     const { user } = useContext(AuthContext);
     const [reviews, setReviews] = useState([]);
     useEffect(() => {
-        fetch(`http://localhost:5000/reviews?email=${user?.email}`, {
+        fetch(`https://assignment-11-server-ecru-gamma.vercel.app/reviews?email=${user?.email}`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem('albert-token')}`
             }
@@ -26,7 +26,7 @@ const Review = () => {
     const handleDelete = (id) => {
         const procced = window.confirm('Are your sure to delete your review');
         if (procced) {
-            fetch(`http://localhost:5000/reviews/${id}`, {
+            fetch(`https://assignment-11-server-ecru-gamma.vercel.app/reviews/${id}`, {
                 method: 'DELETE'
             })
                 .then(res => res.json())
